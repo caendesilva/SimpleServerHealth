@@ -31,6 +31,7 @@ class SimpleServerHealth
             'ping_time_ms' => TimeBuffer::pingPlaceholder(),
             'execution_time_ms' => TimeBuffer::timePlaceholder(),
             'uptime' => self::uptime(),
+            'load_average' => self::loadAverage(),
         ];
     }
 
@@ -53,6 +54,22 @@ class SimpleServerHealth
             'hours' => $diff->h,
             'minutes' => $diff->i,
             'human' => $diff->format('%a days, %h hours, %i minutes'),
+        ];
+    }
+
+    /** @return array|string */
+    protected static function loadAverage()
+    {
+        $loadAverage = sys_getloadavg();
+
+        if (! $loadAverage) {
+            return 'Unknown';
+        }
+
+        return [
+            '1min' => $loadAverage[0],
+            '5min' => $loadAverage[1],
+            '15min' => $loadAverage[2],
         ];
     }
 }
