@@ -113,6 +113,7 @@ class TimeBuffer
     }
 }
 
+// Boot the application and return the response.
 Piko::boot(new Main());
 
 // Below is vendor code bundled with the project
