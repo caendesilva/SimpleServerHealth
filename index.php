@@ -51,7 +51,7 @@ class TimeBuffer
 
     public static function ping(): void
     {
-        static::$pingTime = $_SERVER['REQUEST_TIME_FLOAT'];
+        static::$pingTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
     }
 
     public static function pingPlaceholder(): string
@@ -66,7 +66,7 @@ class TimeBuffer
 
     public static function getPingTime(): float
     {
-        return round((microtime(true) - static::$pingTime) * 1000, 8);
+        return round(static::$pingTime * 1000, 8);
     }
 
     public static function getExecutionTime(): float
