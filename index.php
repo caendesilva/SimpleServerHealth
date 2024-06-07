@@ -110,6 +110,7 @@ class SimpleServerHealth
         return [
             'used' => number_format($load, 2),
             'idle' => number_format(100 - $load, 2),
+            'cores' => count($cpus),
             'cpus' => $cpus,
         ];
     }
