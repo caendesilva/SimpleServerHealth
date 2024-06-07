@@ -88,6 +88,7 @@ class SimpleServerHealth
 
         $cpus = [];
         $iteration = 0;
+        $coreSpeeds = [];
 
         for ($i = 0; $i < count($raw); $i++) {
             if (empty($raw[$i])) {
@@ -97,6 +98,10 @@ class SimpleServerHealth
             }
             $parts = explode(':', $raw[$i]);
             $cpus[$iteration][str_replace(' ', '_', trim($parts[0]))] = trim($parts[1]);
+
+            if (strpos($raw[$i], 'cpu MHz') !== false) {
+                $coreSpeeds[] = trim($parts[1]);
+            }
         }
 
         for ($i = 0; $i < count($cpus); $i++) {
@@ -107,10 +112,13 @@ class SimpleServerHealth
         $loadParts = explode(' ', $loadRaw[0]);
         $load = $loadParts[0] * 100 / count($cpus);
 
+        $coreSpeedAverage = count($coreSpeeds) > 0 ? array_sum($coreSpeeds) / count($coreSpeeds) : 0;
+        
         return [
             'used' => number_format($load, 2),
             'idle' => number_format(100 - $load, 2),
             'cores' => count($cpus),
+            'core_speed_avg_mhz' => number_format($coreSpeedAverage, 2),
             'cpus' => $cpus,
         ];
     }
