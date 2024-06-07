@@ -40,13 +40,13 @@ class SimpleServerHealth
     /** @return array|string */
     protected static function uptime()
     {
-        $uptime = trim(shell_exec('uptime -s'));
+        $uptime = shell_exec('uptime -s');
 
         if (! $uptime) {
             return 'Unknown';
         }
 
-        $uptime = new DateTimeImmutable($uptime);
+        $uptime = new DateTimeImmutable(trim($uptime));
         $now = new DateTimeImmutable();
 
         $diff = $now->diff($uptime);
