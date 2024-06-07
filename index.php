@@ -71,7 +71,9 @@ class Main extends App
 
     protected function getResponseData(): array
     {
-        return SimpleServerHealth::data();
+        $data = SimpleServerHealth::data();
+
+        return $data;
     }
 }
 
