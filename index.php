@@ -66,7 +66,12 @@ class Main extends App
 
     public function handle(): Response
     {
-        return new Response(200, 'OK', SimpleServerHealth::data());
+        return new Response(200, 'OK', $this->getResponseData());
+    }
+
+    protected function getResponseData(): array
+    {
+        return SimpleServerHealth::data();
     }
 }
 
