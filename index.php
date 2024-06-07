@@ -89,6 +89,7 @@ class SimpleServerHealth
         $cpus = [];
         $iteration = 0;
         $coreSpeeds = [];
+        $brands = [];
 
         for ($i = 0; $i < count($raw); $i++) {
             if (empty($raw[$i])) {
@@ -102,6 +103,10 @@ class SimpleServerHealth
             if (strpos($raw[$i], 'cpu MHz') !== false) {
                 $coreSpeeds[] = trim($parts[1]);
             }
+
+            if (strpos($raw[$i], 'model name') !== false) {
+                $brands[] = trim($parts[1]);
+            }
         }
 
         for ($i = 0; $i < count($cpus); $i++) {
@@ -113,13 +118,24 @@ class SimpleServerHealth
         $load = $loadParts[0] * 100 / count($cpus);
 
         $coreSpeedAverage = count($coreSpeeds) > 0 ? array_sum($coreSpeeds) / count($coreSpeeds) : 0;
-        
+
+        if (count($brands) > 0) {
+            if (count(array_unique($brands)) === 1) {
+                $brand = $brands[0];
+            } else {
+                $brand = 'Multiple: '.implode(', ', array_unique($brands));
+            }
+        } else {
+            $brand = 'Unknown';
+        }
+
         return [
             'used' => number_format($load, 2),
             'idle' => number_format(100 - $load, 2),
             'cores' => count($cpus),
             'core_speed_avg_mhz' => number_format($coreSpeedAverage, 2),
             'cpus' => $cpus,
+            'brand' => $brand,
         ];
     }
 }
