@@ -9,6 +9,8 @@ class SimpleServerHealth
 
 class Main extends App
 {
+    public const APP_VERSION = '0.1.0';
+
     public function handle(): Response
     {
         return new Response(200, 'Hello World!');
