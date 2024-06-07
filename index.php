@@ -1,11 +1,12 @@
 <?php
 
+/**
+ * Main helper class for the application.
+ */
 class SimpleServerHealth
 {
-    // Main configuration class
+    //
 }
-
-// The main application entry point
 
 /**
  * The main application entry point, responsible for delivering the response.
