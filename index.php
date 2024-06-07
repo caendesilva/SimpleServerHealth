@@ -25,10 +25,7 @@ class SimpleServerHealth
     public static function data(): array
     {
         return [
-            'app' => 'Simple Server Health',
-            'version' => Main::APP_VERSION,
-            'features' => Config::features(),
-            'timestamp' => time(),
+            //
         ];
     }
 }
