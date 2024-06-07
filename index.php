@@ -134,7 +134,6 @@ class SimpleServerHealth
             'idle' => number_format(100 - $load, 2),
             'cores' => count($cpus),
             'core_speed_avg_mhz' => number_format($coreSpeedAverage, 2),
-            'cpus' => $cpus,
             'brand' => $brand,
         ];
     }
