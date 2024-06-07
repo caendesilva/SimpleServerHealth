@@ -29,7 +29,15 @@ class SimpleServerHealth
             'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
             'ping_time_ms' => round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8),
+            'uptime' => self::uptime(),
         ];
+    }
+
+    protected static function uptime(): string
+    {
+        $uptime = shell_exec('uptime');
+
+        return $uptime ? trim($uptime) : 'Unknown';
     }
 }
 
