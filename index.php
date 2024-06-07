@@ -84,7 +84,7 @@ class Response
             'statusMessage' => $statusMessage,
         ], $data);
 
-        echo json_encode($response);
+        echo json_encode($response, JSON_PRETTY_PRINT);
     }
 }
 
