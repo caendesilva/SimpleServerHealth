@@ -73,6 +73,8 @@ class Main extends App
     {
         $data = SimpleServerHealth::data();
 
+        $data['ping_time_ms'] = TimeBuffer::getPingTime();
+
         return $data;
     }
 }
