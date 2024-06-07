@@ -115,11 +115,23 @@ try {
 } catch (Throwable $exception) {
      // If the `APP_DEBUG` environment variable is set, show the error message.
     if (getenv('APP_DEBUG')) {
-        return new Response(500, 'Internal Server Error', [
-            'message' => $exception->getMessage(),
-            'file' => $exception->getFile(),
-            'line' => $exception->getLine(),
-        ]);
+        // If client is requesting JSON, return the error message.
+        if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
+            return new Response(500, 'Internal Server Error', [
+                'message' => $exception->getMessage(),
+                'file' => $exception->getFile(),
+                'line' => $exception->getLine(),
+            ]);
+        }
+
+        // Otherwise, show the error message in the browser.
+        header('Content-Type: text/html; charset=utf-8');
+        echo '<h1>Internal Server Error</h1>';
+        echo '<p>' . $exception->getMessage() . '</p>';
+        echo '<p>' . $exception->getFile() . ' on line ' . $exception->getLine() . '</p>';
+        echo '<pre>' . $exception->getTraceAsString() . '</pre>';
+
+        return;
     }
 
     return new Response(500, 'Internal Server Error', [
