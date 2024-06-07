@@ -130,11 +130,11 @@ class SimpleServerHealth
         }
 
         return [
+            'brand' => $brand,
             'used' => number_format($load, 2),
             'idle' => number_format(100 - $load, 2),
-            'cores' => count($cpus),
             'core_speed_avg_mhz' => number_format($coreSpeedAverage, 2),
-            'brand' => $brand,
+            'cores' => count($cpus),
         ];
     }
 }
