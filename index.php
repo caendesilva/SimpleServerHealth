@@ -87,15 +87,11 @@ class Main extends App
         try {
             return new Response(200, 'OK', $this->getResponseData());
         } catch (Throwable $exception) {
-            if (getenv('APP_DEBUG')) {
-                return new Response(500, 'Internal Server Error', [
-                    'error' => $exception->getMessage(),
-                ]);
-            } else {
-                return new Response(500, 'Internal Server Error', [
-                    'error' => 'Please see the server logs for more information.',
-                ]);
-            }
+            return new Response(500, 'Internal Server Error', [
+                'error' => getenv('APP_DEBUG') // If the `APP_DEBUG` environment variable is set, show the error message.
+                    ? $exception->getMessage()
+                    : 'Please see the server logs for more information.',
+            ]);
         }
     }
 
