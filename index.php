@@ -73,7 +73,9 @@ class Main extends App
     {
         $data = SimpleServerHealth::data();
 
-        $data['ping_time_ms'] = TimeBuffer::getPingTime();
+        if (isset($data['ping_time_ms'])) {
+            $data['ping_time_ms'] = TimeBuffer::getPingTime();
+        }
 
         return $data;
     }
