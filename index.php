@@ -49,9 +49,9 @@ class SimpleServerHealth
         $diff = $now->diff($uptime);
 
         return [
-            'days'	=> $diff->d,
-            'hours'	=> $diff->h,
-            'minutes'	=> $diff->i,
+            'days' => $diff->d,
+            'hours' => $diff->h,
+            'minutes' => $diff->i,
         ];
     }
 }
