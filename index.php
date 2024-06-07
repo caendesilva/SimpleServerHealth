@@ -84,7 +84,13 @@ class Main extends App
 
     public function handle(): Response
     {
-        return new Response(200, 'OK', $this->getResponseData());
+        try {
+            return new Response(200, 'OK', $this->getResponseData());
+        } catch (Throwable $exception) {
+            return new Response(500, 'Internal Server Error', [
+                'error' => $exception->getMessage(),
+            ]);
+        }
     }
 
     protected function getResponseData(): array
