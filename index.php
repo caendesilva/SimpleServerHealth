@@ -36,13 +36,13 @@ class SimpleServerHealth
 
     protected static function uptime(): string
     {
-        $uptime = shell_exec('uptime');
+        $uptime = trim(shell_exec('uptime'));
 
         if (! $uptime) {
             return 'Unknown';
         }
 
-        return trim($uptime);
+        return $uptime;
     }
 }
 
