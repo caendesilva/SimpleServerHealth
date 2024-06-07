@@ -137,12 +137,22 @@ class SimpleServerHealth
             $brand = 'Unknown';
         }
 
+        $cpuData = [];
+        foreach ($cpus as $cpu) {
+            $cpuData[] = [
+                'core_id' => $cpu['processor'],
+                'cpu_mhz' => $cpu['cpu_MHz'],
+                'model_name' => $cpu['model_name'],
+            ];
+        }
+
         return [
             'brand' => $brand,
             'used' => number_format($load, 2),
             'idle' => number_format(100 - $load, 2),
             'core_speed_avg_mhz' => number_format($coreSpeedAverage, 2),
             'cores' => count($cpus),
+            'cpus' => $cpuData,
         ];
     }
 }
