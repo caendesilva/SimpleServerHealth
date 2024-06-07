@@ -1,6 +1,16 @@
 <?php
 
 /**
+ * This class can be edited to configure the health check application.
+ *
+ * Note that this is the only file you should edit yourself!
+ */
+class Config
+{
+    //
+}
+
+/**
  * Main helper class for the application.
  */
 class SimpleServerHealth
