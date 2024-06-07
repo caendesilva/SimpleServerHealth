@@ -5,6 +5,18 @@ class SimpleServerHealth
     // Main configuration class
 }
 
+// The main application entry point
+
+class Main extends App
+{
+    public function handle(): Response
+    {
+        return new Response(200, 'Hello World!');
+    }
+}
+
+Piko::boot(new Main());
+
 // Below is vendor code bundled with the project
 
 // -- Start Pikoserve --
