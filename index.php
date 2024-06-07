@@ -7,6 +7,9 @@ class SimpleServerHealth
 
 // The main application entry point
 
+/**
+ * The main application entry point, responsible for delivering the response.
+ */
 class Main extends App
 {
     public const APP_VERSION = '0.1.0';
