@@ -135,7 +135,7 @@ try {
     }
 
     return new Response(500, 'Internal Server Error', [
-        'Please see the server logs for more information.',
+        'error' => 'Please see the server logs for more information.',
     ]);
 }
 
