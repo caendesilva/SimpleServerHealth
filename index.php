@@ -78,14 +78,20 @@ class SimpleServerHealth
     /**
      * This method was reworked from 'PHP Server Status Dashboard'. The original information is seen below.
      *
+     * @return array|string
+     *
      * @link https://github.com/eworksmedia/php-server-status-dashboard/blob/master/server/classes/Server.class.php
      *
      * @author http://www.e-worksmedia.com
      * @license BSD 3-Clause
      */
-    public static function getCPUInfo(): array
+    public static function getCPUInfo()
     {
         exec('cat /proc/cpuinfo', $raw);
+
+        if (empty($raw)) {
+            return 'Unknown';
+        }
 
         $cpus = [];
         $iteration = 0;
