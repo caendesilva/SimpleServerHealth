@@ -40,9 +40,9 @@ class SimpleServerHealth
 
         if (! $uptime) {
             return 'Unknown';
-        } else {
-            return trim($uptime);
         }
+
+        return trim($uptime);
     }
 }
 
