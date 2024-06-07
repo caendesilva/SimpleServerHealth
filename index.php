@@ -7,7 +7,14 @@
  */
 class Config
 {
-    //
+    public static function features(): array
+    {
+        // Comment out the features you don't want to use here.
+
+        return [
+            //
+        ];
+    }
 }
 
 /**
