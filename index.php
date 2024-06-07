@@ -52,7 +52,7 @@ class SimpleServerHealth
             'days' => $diff->d,
             'hours' => $diff->h,
             'minutes' => $diff->i,
-            'human_readable' => $diff->format('%a days, %h hours, %i minutes'),
+            'human' => $diff->format('%a days, %h hours, %i minutes'),
         ];
     }
 }
