@@ -34,7 +34,11 @@ class Main extends App
 
     public function handle(): Response
     {
-        return new Response(200, 'Hello World!');
+        return new Response(200, 'OK', [
+            'app' => 'Simple Server Health',
+            'version' => self::APP_VERSION,
+            'features' => Config::features(),
+        ]);
     }
 }
 
