@@ -43,39 +43,6 @@ class SimpleServerHealth
 }
 
 /**
- * A simple class to buffer time values to get more accurate results.
- */
-class TimeBuffer
-{
-    protected static float $pingTime;
-
-    public static function ping(): void
-    {
-        static::$pingTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
-    }
-
-    public static function pingPlaceholder(): string
-    {
-        return '%% ping time %%';
-    }
-
-    public static function timePlaceholder(): string
-    {
-        return '%% execution time %%';
-    }
-
-    public static function getPingTime(): float
-    {
-        return round(static::$pingTime * 1000, 8);
-    }
-
-    public static function getExecutionTime(): float
-    {
-        return round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8);
-    }
-}
-
-/**
  * The main application entry point, responsible for delivering the response.
  */
 class Main extends App
@@ -110,6 +77,39 @@ class Main extends App
         }
 
         return $data;
+    }
+}
+
+/**
+ * A simple class to buffer time values to get more accurate results.
+ */
+class TimeBuffer
+{
+    protected static float $pingTime;
+
+    public static function ping(): void
+    {
+        static::$pingTime = microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'];
+    }
+
+    public static function pingPlaceholder(): string
+    {
+        return '%% ping time %%';
+    }
+
+    public static function timePlaceholder(): string
+    {
+        return '%% execution time %%';
+    }
+
+    public static function getPingTime(): float
+    {
+        return round(static::$pingTime * 1000, 8);
+    }
+
+    public static function getExecutionTime(): float
+    {
+        return round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8);
     }
 }
 
