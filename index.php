@@ -116,7 +116,14 @@ class TimeBuffer
 }
 
 // Boot the application and return the response.
-Piko::boot(new Main());
+try {
+    Piko::boot(new Main());
+} catch (Throwable $exception) {
+     // If the `APP_DEBUG` environment variable is set, show the error message.
+    if (getenv('APP_DEBUG')) {
+        throw $exception;
+    }
+}
 
 // Below is vendor code bundled with the project
 
