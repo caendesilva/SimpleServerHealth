@@ -26,6 +26,8 @@ class SimpleServerHealth
     {
         return [
             'server_time' => date('Y-m-d H:i:s T (e)'),
+            'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
+            'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
         ];
     }
 }
