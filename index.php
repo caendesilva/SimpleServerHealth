@@ -39,11 +39,21 @@ class SimpleServerHealth
     {
         $uptime = trim(shell_exec('uptime'));
 
+        // $uptime = '09:10:18 up 106 days, 32 min, 2 users, load average: 0.22, 0.41, 0.32';
+
         if (! $uptime) {
             return 'Unknown';
         }
 
-        return $uptime;
+        preg_match_all('/\d{1,3}\sday/', $uptime, $uptimeDays);
+        preg_match_all('/\d{1,2}:\d{1,2}\,/', $uptime, $uptimeHours);
+        $days = str_replace(' day', '', $uptimeDays[0][0]);
+        $hours = str_replace(',', '', $uptimeHours[0][0]);
+
+        return [
+            'days'	=>	empty($days) ? '0' : $days,
+            'hours'	=>	empty($hours) ? '00:00' : $hours
+        ];
     }
 }
 
