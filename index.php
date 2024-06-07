@@ -43,8 +43,8 @@ class SimpleServerHealth
             return 'Unknown';
         }
 
-        $uptime = new DateTime($uptime);
-        $now = new DateTime();
+        $uptime = new DateTimeImmutable($uptime);
+        $now = new DateTimeImmutable();
 
         $diff = $now->diff($uptime);
 
