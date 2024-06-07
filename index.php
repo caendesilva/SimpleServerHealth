@@ -32,6 +32,7 @@ class SimpleServerHealth
             'execution_time_ms' => TimeBuffer::timePlaceholder(),
             'uptime' => self::uptime(),
             'load_average' => self::loadAverage(),
+            'cpu' => self::getCPUInfo(),
         ];
     }
 
@@ -70,6 +71,46 @@ class SimpleServerHealth
             '1min' => $loadAverage[0],
             '5min' => $loadAverage[1],
             '15min' => $loadAverage[2],
+        ];
+    }
+
+    /**
+     * This method was reworked from 'PHP Server Status Dashboard'. The original information is seen below.
+     *
+     * @link https://github.com/eworksmedia/php-server-status-dashboard/blob/master/server/classes/Server.class.php
+     *
+     * @author http://www.e-worksmedia.com
+     * @license BSD 3-Clause
+     */
+    public static function getCPUInfo(): array
+    {
+        exec('cat /proc/cpuinfo', $raw);
+
+        $cpus = [];
+        $iteration = 0;
+
+        for ($i = 0; $i < count($raw); $i++) {
+            if (empty($raw[$i])) {
+                $iteration++;
+
+                continue;
+            }
+            $parts = explode(':', $raw[$i]);
+            $cpus[$iteration][str_replace(' ', '_', trim($parts[0]))] = trim($parts[1]);
+        }
+
+        for ($i = 0; $i < count($cpus); $i++) {
+            ksort($cpus[$i]);
+        }
+
+        exec('cat /proc/loadavg', $loadRaw);
+        $loadParts = explode(' ', $loadRaw[0]);
+        $load = $loadParts[0] * 100 / count($cpus);
+
+        return [
+            'used' => number_format($load, 2),
+            'idle' => number_format(100 - $load, 2),
+            'cpus' => $cpus,
         ];
     }
 }
@@ -155,9 +196,9 @@ try {
         // Otherwise, show the error message in the browser.
         header('Content-Type: text/html; charset=utf-8');
         echo '<h1>Internal Server Error</h1>';
-        echo '<p>' . $exception->getMessage() . '</p>';
-        echo '<p>' . $exception->getFile() . ' on line ' . $exception->getLine() . '</p>';
-        echo '<pre>' . $exception->getTraceAsString() . '</pre>';
+        echo '<p>'.$exception->getMessage().'</p>';
+        echo '<p>'.$exception->getFile().' on line '.$exception->getLine().'</p>';
+        echo '<pre>'.$exception->getTraceAsString().'</pre>';
 
         return;
     }
@@ -180,13 +221,14 @@ function dd($data)
 // -- Start Pikoserve --
 
 /**
- * @package caendesilva/pikoserve
  * @author Caen De Silva <caen@desilva.se>
+ *
  * @link https://github.com/caendesilva/pikoserve
+ *
  * @version 1.1.0
+ *
  * @license MIT
  */
-
 class Piko
 {
     public const VERSION = '1.1.0';
@@ -226,7 +268,9 @@ class Response
 class Request
 {
     public string $method;
+
     public string $path;
+
     public array $data;
 
     public function __construct(array $data = [])
@@ -249,7 +293,7 @@ class Request
 
     public static function array(): array
     {
-        return (array)static::get();
+        return (array) static::get();
     }
 }
 
