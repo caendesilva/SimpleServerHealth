@@ -29,6 +29,7 @@ class SimpleServerHealth
             'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
             'server_os_family' => php_uname('s'),
+            'server_os_version' => php_uname('r'),
             'ping_time_ms' => TimeBuffer::pingPlaceholder(),
             'execution_time_ms' => TimeBuffer::timePlaceholder(),
             'uptime' => self::uptime(),
@@ -223,7 +224,7 @@ try {
     Piko::boot(new Main());
 } catch (Throwable $exception) {
     // If the `APP_DEBUG` environment variable is set, show the error message.
-    if (getenv('APP_DEBUG')) {
+    if (!getenv('APP_DEBUG')) {
         // If client is requesting JSON, return the error message.
         if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
             return new Response(500, 'Internal Server Error', [
