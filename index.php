@@ -25,7 +25,7 @@ class SimpleServerHealth
     public static function data(): array
     {
         return [
-            //
+            'server_time' => date('Y-m-d H:i:s T (e)'),
         ];
     }
 }
