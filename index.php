@@ -139,6 +139,14 @@ try {
     ]);
 }
 
+// Debug utility
+function dd($data)
+{
+    var_dump($data);
+
+    exit(1);
+}
+
 // Below is vendor code bundled with the project
 
 // -- Start Pikoserve --
