@@ -10,7 +10,7 @@ Drop the `index.php` file onto your web server.
 
 ### What you need
 
-You need PHP installed.
+You need PHP 7.4 or higher installed.
 
 ### What you get
 
