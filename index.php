@@ -22,7 +22,15 @@ class Config
  */
 class SimpleServerHealth
 {
-    //
+    public static function data(): array
+    {
+        return [
+            'app' => 'Simple Server Health',
+            'version' => Main::APP_VERSION,
+            'features' => Config::features(),
+            'timestamp' => time(),
+        ];
+    }
 }
 
 /**
@@ -34,11 +42,7 @@ class Main extends App
 
     public function handle(): Response
     {
-        return new Response(200, 'OK', [
-            'app' => 'Simple Server Health',
-            'version' => self::APP_VERSION,
-            'features' => Config::features(),
-        ]);
+        return new Response(200, 'OK', SimpleServerHealth::data());
     }
 }
 
