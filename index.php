@@ -88,7 +88,9 @@ class Main extends App
             return new Response(200, 'OK', $this->getResponseData());
         } catch (Throwable $exception) {
             return new Response(500, 'Internal Server Error', [
-                'error' => getenv('APP_DEBUG') ? $exception->getMessage() : 'Please see the server logs for more information.',
+                'error' => getenv('APP_DEBUG')
+                    ? $exception->getMessage()
+                    : 'Please see the server logs for more information.',
             ]);
         }
     }
