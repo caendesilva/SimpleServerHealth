@@ -28,7 +28,7 @@ class SimpleServerHealth
             'server_time' => date('Y-m-d H:i:s T (e)'),
             'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'ping_time_ms' => round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8),
+            'ping_time_ms' => TimeBuffer::ping(),
             'uptime' => self::uptime(),
         ];
     }
@@ -38,6 +38,22 @@ class SimpleServerHealth
         $uptime = shell_exec('uptime');
 
         return $uptime ? trim($uptime) : 'Unknown';
+    }
+}
+
+/**
+ * A simple class to buffer time values to get more accurate results.
+ */
+class TimeBuffer
+{
+    public static function ping(): string
+    {
+        return '%% ping time %%';
+    }
+
+    public static function getPingTime(): float
+    {
+        return round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8);
     }
 }
 
