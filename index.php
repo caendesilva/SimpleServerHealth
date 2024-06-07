@@ -38,10 +38,10 @@ class SimpleServerHealth
     {
         $uptime = shell_exec('uptime');
 
-        if ($uptime) {
-            return trim($uptime);
-        } else {
+        if (! $uptime) {
             return 'Unknown';
+        } else {
+            return trim($uptime);
         }
     }
 }
