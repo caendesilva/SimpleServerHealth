@@ -62,7 +62,7 @@ class SimpleServerHealth
     /** @return array|string */
     protected static function loadAverage()
     {
-        $loadAverage = sys_getloadavg();
+        $loadAverage = function_exists('sys_getloadavg') ? sys_getloadavg() : null;
 
         if (! $loadAverage) {
             return 'Unknown';
