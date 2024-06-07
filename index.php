@@ -34,8 +34,7 @@ class SimpleServerHealth
         ];
     }
 
-    /** @return array|string */
-    protected static function uptime()
+    protected static function uptime(): string
     {
         $uptime = trim(shell_exec('uptime -s'));
 
