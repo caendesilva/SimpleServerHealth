@@ -51,6 +51,7 @@ class SimpleServerHealth
         return [
             'days'	=> $diff->d,
             'hours'	=> $diff->h,
+            'minutes'	=> $diff->i,
         ];
     }
 }
