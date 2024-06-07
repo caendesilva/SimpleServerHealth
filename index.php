@@ -55,13 +55,7 @@ class Main extends App
 
     public function handle(): Response
     {
-        try {
-            return new Response(200, 'OK', $this->getResponseData());
-        } catch (Throwable $exception) {
-            return new Response(500, 'Internal Server Error', [
-                'Please see the server logs for more information.',
-            ]);
-        }
+        return new Response(200, 'OK', $this->getResponseData());
     }
 
     protected function getResponseData(): array
@@ -121,8 +115,16 @@ try {
 } catch (Throwable $exception) {
      // If the `APP_DEBUG` environment variable is set, show the error message.
     if (getenv('APP_DEBUG')) {
-        throw $exception;
+        return new Response(500, 'Internal Server Error', [
+            'message' => $exception->getMessage(),
+            'file' => $exception->getFile(),
+            'line' => $exception->getLine(),
+        ]);
     }
+
+    return new Response(500, 'Internal Server Error', [
+        'Please see the server logs for more information.',
+    ]);
 }
 
 // Below is vendor code bundled with the project
