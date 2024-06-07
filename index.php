@@ -203,6 +203,15 @@ class TimeBuffer
     }
 }
 
+// Convert PHP warnings to exceptions.
+set_error_handler(function ($severity, $message, $file, $line) {
+    if (!(error_reporting() & $severity)) {
+        return;
+    }
+
+    throw new ErrorException($message, 0, $severity, $file, $line);
+});
+
 // Boot the application and return the response.
 try {
     Piko::boot(new Main());
