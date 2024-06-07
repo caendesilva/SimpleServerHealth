@@ -20,6 +20,12 @@ A single endpoint that returns a JSON response with the server health.
 
 You can also configure basic token authentication and configure what data is shown.
 
+### Security
+
+Remember that health checks may expose sensitive information about your server configuration.
+
+Make sure to secure the endpoint properly, or take care to limit the information shown to the public.
+
 ### License
 
 The MIT License
