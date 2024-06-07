@@ -28,6 +28,7 @@ class SimpleServerHealth
             'server_time' => date('Y-m-d H:i:s T (e)'),
             'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
+            'server_os_family' => php_uname('s'),
             'ping_time_ms' => TimeBuffer::pingPlaceholder(),
             'execution_time_ms' => TimeBuffer::timePlaceholder(),
             'uptime' => self::uptime(),
