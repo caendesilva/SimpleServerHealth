@@ -28,7 +28,8 @@ class SimpleServerHealth
             'server_time' => date('Y-m-d H:i:s T (e)'),
             'server_name' => $_SERVER['SERVER_NAME'] ?? 'Unknown',
             'server_software' => $_SERVER['SERVER_SOFTWARE'] ?? 'Unknown',
-            'ping_time_ms' => TimeBuffer::ping(),
+            'ping_time_ms' => TimeBuffer::pingPlaceholder(),
+            'execution_time_ms' => TimeBuffer::timePlaceholder(),
             'uptime' => self::uptime(),
         ];
     }
@@ -46,12 +47,29 @@ class SimpleServerHealth
  */
 class TimeBuffer
 {
-    public static function ping(): string
+    protected static float $pingTime;
+
+    public static function ping(): void
+    {
+        static::$pingTime = $_SERVER['REQUEST_TIME_FLOAT'];
+    }
+
+    public static function pingPlaceholder(): string
     {
         return '%% ping time %%';
     }
 
+    public static function timePlaceholder(): string
+    {
+        return '%% execution time %%';
+    }
+
     public static function getPingTime(): float
+    {
+        return round((microtime(true) - static::$pingTime) * 1000, 8);
+    }
+
+    public static function getExecutionTime(): float
     {
         return round((microtime(true) - $_SERVER['REQUEST_TIME_FLOAT'] ?? 0) * 1000, 8);
     }
@@ -71,10 +89,16 @@ class Main extends App
 
     protected function getResponseData(): array
     {
+        TimeBuffer::ping();
+
         $data = SimpleServerHealth::data();
 
         if (isset($data['ping_time_ms'])) {
             $data['ping_time_ms'] = TimeBuffer::getPingTime();
+        }
+
+        if (isset($data['execution_time_ms'])) {
+            $data['execution_time_ms'] = TimeBuffer::getExecutionTime();
         }
 
         return $data;
