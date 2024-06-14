@@ -53,22 +53,22 @@ jobs:
               echo "Unauthorized access test failed"
               exit 1
           fi
-        
+
           if ! grep -q "Unauthorized access" wrong-bearer-result.json; then
               echo "Wrong Bearer token test failed"
               exit 1
           fi
-        
+
           if ! grep -q "Unauthorized access" wrong-token-result.json; then
               echo "Wrong Token test failed"
               exit 1
           fi
-        
+
           if grep -q "Unauthorized access" bearer-result.json; then
               echo "Bearer token test failed"
               exit 1
           fi
-        
+
           if grep -q "Unauthorized access" token-result.json; then
               echo "Token test failed"
               exit 1
