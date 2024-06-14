@@ -49,7 +49,7 @@ jobs:
       run: |
         php -S localhost:8000 -t . > /dev/null 2>&1 &
 
-    - name: Run curl to test endpoint
+    - name: Run Curl to test endpoint
       run: |
         curl -sS localhost:8000/health.php | tee result.json
         cat result.json
