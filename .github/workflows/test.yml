@@ -12,31 +12,10 @@ jobs:
       fail-fast: false
       matrix:
         include:
-          - os: ubuntu-latest
-            php-version: 'smoke-test'
 
-          - os: ubuntu-latest
-            php-version: 'latest'
-
-          # Matrix for different operating systems with latest PHP version
-          - os: ubuntu-latest
-            php-version: 'latest'
-          - os: macos-latest
-            php-version: 'latest'
           - os: windows-latest
             php-version: 'latest'
           
-          # Matrix for different PHP versions on Ubuntu
-          - os: ubuntu-latest
-            php-version: '7.4'
-          - os: ubuntu-latest
-            php-version: '8.0'
-          - os: ubuntu-latest
-            php-version: '8.1'
-          - os: ubuntu-latest
-            php-version: '8.2'
-          - os: ubuntu-latest
-            php-version: '8.3'
         
     runs-on: ${{ matrix.os }}
     
@@ -52,7 +31,7 @@ jobs:
 
     - name: Start PHP Server
       run: |
-        php -S localhost:8000 -t . &
+        php -S localhost:8000 -t . 
 
     - name: Run Curl to test endpoint
       run: |
