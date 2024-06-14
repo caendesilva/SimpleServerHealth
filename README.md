@@ -1,6 +1,6 @@
 # SimpleServerHealth
 
-Dead simple server health API endpoint with PHP.
+Dead simple server health API endpoint with PHP. No dependencies, customizable, lightweight, fast, powerful. Pick all five. 
 
 ## What you need to know
 
