@@ -1,0 +1,74 @@
+name: Test Server Health Status Page
+
+on:
+  push:
+    branches: [ main ]
+  pull_request:
+    branches: [ main ]
+
+jobs:
+  test:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Matrix for different operating systems with latest PHP version
+          - os: ubuntu-latest
+            php-version: 'latest'
+          - os: macos-latest
+            php-version: 'latest'
+          - os: windows-latest
+            php-version: 'latest'
+          
+          # Matrix for different PHP versions on Ubuntu
+          - os: ubuntu-latest
+            php-version: '7.4'
+          - os: ubuntu-latest
+            php-version: '8.0'
+          - os: ubuntu-latest
+            php-version: '8.1'
+          - os: ubuntu-latest
+            php-version: '8.2'
+          - os: ubuntu-latest
+            php-version: '8.3'
+        
+    runs-on: ${{ matrix.os }}
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3
+
+    - name: Set up PHP
+      uses: shivammathur/setup-php@v2
+      with:
+        php-version: ${{ matrix.php-version }}
+        tools: composer
+    
+    - name: Start PHP Server
+      run: |
+        php -S localhost:8000 -t . > /dev/null 2>&1 &
+        sleep 5 # give the server some time to start
+
+    - name: Run curl to test endpoint
+      run: |
+        curl -sS localhost:8000/health.php | tee result.json
+        cat result.json
+
+    - name: Validate response
+      run: |
+        php -r '
+        $response = json_decode(file_get_contents("result.json"), true);
+        if ($response["statusCode"] !== 200) {
+          echo "Status code is not 200";
+          exit(1);
+        }
+        if ($response["statusMessage"] !== "OK") {
+          echo "Status message is not OK";
+          exit(1);
+        }
+        if (!isset($response["server_time"])) {
+          echo "Server time is not set";
+          exit(1);
+        }
+        echo "All checks passed!";
+        '
