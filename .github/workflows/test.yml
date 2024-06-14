@@ -40,11 +40,9 @@ jobs:
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
-      if: ${{ matrix.php-version != 'latest' }}
       with:
         php-version: ${{ matrix.php-version }}
-        tools: composer
-    
+
     - name: Start PHP Server
       run: |
         php -S localhost:8000 -t . &
