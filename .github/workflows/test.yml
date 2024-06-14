@@ -47,19 +47,16 @@ jobs:
 
       - name: Validate responses
         run: |
-          # Assert first contains "Unauthorized access"
           if ! grep -q "Unauthorized access" unauth-result.json; then
               echo "Unauthorized access test failed"
               exit 1
           fi
         
-          # Assert second does not contain "Unauthorized access"
           if grep -q "Unauthorized access" bearer-result.json; then
               echo "Bearer token test failed"
               exit 1
           fi
         
-          # Assert third does not contain "Unauthorized access"
           if grep -q "Unauthorized access" token-result.json; then
               echo "Token test failed"
               exit 1
