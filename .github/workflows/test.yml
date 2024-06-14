@@ -12,6 +12,12 @@ jobs:
       fail-fast: false
       matrix:
         include:
+          - os: ubuntu-latest
+            php-version: 'smoke-test'
+
+          - os: ubuntu-latest
+            php-version: 'latest'
+
           # Matrix for different operating systems with latest PHP version
           - os: ubuntu-latest
             php-version: 'latest'
@@ -40,6 +46,7 @@ jobs:
 
     - name: Set up PHP
       uses: shivammathur/setup-php@v2
+      if: ${{ matrix.php-version != 'smoke-test' }}
       with:
         php-version: ${{ matrix.php-version }}
 
