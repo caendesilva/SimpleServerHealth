@@ -56,7 +56,7 @@ jobs:
 
     - name: Run Curl to test endpoint
       run: |
-        curl -sS localhost:8000/index.php | tee result.json
+        curl -sS http://localhost:8000/index.php | tee result.json
         cat result.json
 
     - name: Validate response
