@@ -26,6 +26,45 @@ jobs:
       - name: Validate response
         run: php .github/bin/test.php
 
+  auth-tests:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Start PHP Server
+        env:
+          APP_AUTH_TOKEN: '9f86d081884c7d659a2feaa0c55ad015a3bf4f1b2b0b822cd15d6c15b0f00a08' # sha256('test')
+        run: |
+          php -S localhost:8000 -t . &
+
+      - name: Run Curl to test endpoint
+        run: |
+          curl -sS http://localhost:8000/index.php | tee unauth-result.json
+          curl -sS -H "Authorization: Bearer test" http://localhost:8000/index.php | tee bearer-result.json
+          curl -sS http://localhost:8000/index.php?token=test | tee token-result.json
+
+      - name: Validate responses
+        run: |
+          # Assert first contains "Unauthorized access"
+          if ! grep -q "Unauthorized access" unauth-result.json; then
+              echo "Unauthorized access test failed"
+              exit 1
+          fi
+        
+          # Assert second does not contain "Unauthorized access"
+          if grep -q "Unauthorized access" bearer-result.json; then
+              echo "Bearer token test failed"
+              exit 1
+          fi
+        
+          # Assert third does not contain "Unauthorized access"
+          if grep -q "Unauthorized access" token-result.json; then
+              echo "Token test failed"
+              exit 1
+          fi
+
   matrix-tests:
     strategy:
       fail-fast: false
