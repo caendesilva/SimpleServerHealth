@@ -23,7 +23,6 @@ jobs:
         run: |
           curl localhost:8000
           curl -sS http://localhost:8000/index.php | tee result.json
-          cat result.json
 
       - name: Validate response
         run: php .github/bin/test.php
@@ -74,14 +73,12 @@ jobs:
         run: |
           curl localhost:8000
           curl -sS http://localhost:8000/index.php | tee result.json
-          cat result.json
 
       - name: Start PHP server and Run Curl to test endpoint
         if: ${{ matrix.os == 'windows-latest' }}
         run: |
           php -S localhost:8000 -t . &
           curl -sS http://localhost:8000/index.php | tee result.json
-          cat result.json
 
       - name: Validate response
         run: php .github/bin/test.php
