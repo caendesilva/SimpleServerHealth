@@ -52,11 +52,11 @@ jobs:
 
     - name: Start PHP Server
       run: |
-        php -S localhost:8080 -t . &
+        php -S localhost:8000 -t . &
 
     - name: Run Curl to test endpoint
       run: |
-        curl -sS http://localhost:8080/index.php | tee result.json
+        curl -sS http://localhost:8000/index.php | tee result.json
         cat result.json
 
     - name: Validate response
