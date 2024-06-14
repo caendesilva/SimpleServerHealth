@@ -47,7 +47,7 @@ jobs:
     
     - name: Start PHP Server
       run: |
-        php -S localhost:8000 -t . > /dev/null 2>&1 &
+        php -S localhost:8000 -t . &
 
     - name: Run Curl to test endpoint
       run: |
