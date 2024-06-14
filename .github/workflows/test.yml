@@ -48,7 +48,6 @@ jobs:
     - name: Start PHP Server
       run: |
         php -S localhost:8000 -t . > /dev/null 2>&1 &
-        sleep 5 # give the server some time to start
 
     - name: Run curl to test endpoint
       run: |
