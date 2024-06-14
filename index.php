@@ -12,7 +12,16 @@ class Config
         // Comment out the features you don't want to use here.
 
         return [
-            //
+            'server_time',
+            'server_name',
+            'server_software',
+            'server_os_family',
+            'server_os_version',
+            'ping_time_ms',
+            'execution_time_ms',
+            'uptime',
+            'load_average',
+            'cpu',
         ];
     }
 }
@@ -183,7 +192,21 @@ class Main extends App
             $data['execution_time_ms'] = TimeBuffer::getExecutionTime();
         }
 
-        return $data;
+        $features = Config::features();
+
+        if (empty($features)) {
+            return $data;
+        }
+
+        $filteredData = [];
+
+        foreach ($features as $feature) {
+            if (array_key_exists($feature, $data)) {
+                $filteredData[$feature] = $data[$feature];
+            }
+        }
+
+        return $filteredData;
     }
 }
 
