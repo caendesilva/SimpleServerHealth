@@ -18,7 +18,7 @@ A single endpoint that returns a JSON response with the server health.
 
 ### What you can do
 
-You can also configure basic token authentication and configure what data is shown.
+You can also configure basic token authentication (not yet implemented) and configure what data is shown.
 
 ### Security
 
