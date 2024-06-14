@@ -1,0 +1,22 @@
+<h1 id="simpleserverhealth">SimpleServerHealth</h1>
+<p>Dead simple PHP server health API endpoint. No dependencies, customizable, lightweight, fast, powerful. Pick all five. </p>
+<h2 id="what-you-need-to-know">What you need to know</h2>
+<p>Let&#39;s get started with the basics!</p>
+<h3 id="how-to-install">How to install</h3>
+<p>Drop the <code>index.php</code> file onto your web server.</p>
+<h3 id="what-you-need">What you need</h3>
+<p>You need PHP 7.4 or higher installed.</p>
+<h3 id="what-you-get">What you get</h3>
+<p>A single endpoint that returns a JSON response with the server health.</p>
+<h3 id="what-you-can-do">What you can do</h3>
+<p>You can also configure basic token authentication and configure what data is shown.</p>
+<h2 id="security">Security</h2>
+<p>Remember that health checks may expose sensitive information about your server configuration.</p>
+<p>Make sure to secure the endpoint properly, or take care to limit the information shown to the public.</p>
+<h3 id="enabling-token-authentication">Enabling token authentication</h3>
+<p>We provide a <strong>very basic</strong> token authentication mechanism. Remember, by default anyone can access the endpoint.</p>
+<p>To enable authentication, either set an <code>APP_AUTH_TOKEN</code> environment variable or edit the <code>index.php</code> file and set the <code>Config::APP_AUTH_TOKEN</code> constant.</p>
+<p>In both cases, this constant should be the <code>sha256</code> hash of the token you want to use.</p>
+<p>The token can then be passed either as a <code>Bearer</code> token in the <code>Authorization</code> header or as a <code>token</code> query parameter.</p>
+<h2 id="license">License</h2>
+<p>The MIT License</p>
