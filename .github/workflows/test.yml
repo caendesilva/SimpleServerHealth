@@ -25,7 +25,7 @@ jobs:
             php-version: 'latest'
           - os: windows-latest
             php-version: 'latest'
-          
+
           # Matrix for different PHP versions on Ubuntu
           - os: ubuntu-latest
             php-version: '7.4'
@@ -37,44 +37,44 @@ jobs:
             php-version: '8.2'
           - os: ubuntu-latest
             php-version: '8.3'
-        
+
     runs-on: ${{ matrix.os }}
-    
+
     steps:
-    - name: Checkout code
-      uses: actions/checkout@v4
+      - name: Checkout code
+        uses: actions/checkout@v4
 
-    - name: Set up PHP
-      uses: shivammathur/setup-php@v2
-      if: ${{ matrix.php-version != 'smoke-test' }}
-      with:
-        php-version: ${{ matrix.php-version }}
+      - name: Set up PHP
+        uses: shivammathur/setup-php@v2
+        if: ${{ matrix.php-version != 'smoke-test' }}
+        with:
+          php-version: ${{ matrix.php-version }}
 
-    - name: Start PHP Server
-      run: |
-        php -S localhost:8000 -t . &
+      - name: Start PHP Server
+        run: |
+          php -S localhost:8000 -t . &
 
-    - name: Run Curl to test endpoint
-      run: |
-        curl localhost:8000
-        curl -sS http://localhost:8000/index.php | tee result.json
-        cat result.json
+      - name: Run Curl to test endpoint
+        run: |
+          curl localhost:8000
+          curl -sS http://localhost:8000/index.php | tee result.json
+          cat result.json
 
-    - name: Validate response
-      run: |
-        php -r '
-        $response = json_decode(file_get_contents("result.json"), true);
-        if ($response["statusCode"] !== 200) {
-          echo "Status code is not 200";
-          exit(1);
-        }
-        if ($response["statusMessage"] !== "OK") {
-          echo "Status message is not OK";
-          exit(1);
-        }
-        if (!isset($response["server_time"])) {
-          echo "Server time is not set";
-          exit(1);
-        }
-        echo "All checks passed!";
-        '
+      - name: Validate response
+        run: |
+          php -r '
+          $response = json_decode(file_get_contents("result.json"), true);
+          if ($response["statusCode"] !== 200) {
+            echo "Status code is not 200";
+            exit(1);
+          }
+          if ($response["statusMessage"] !== "OK") {
+            echo "Status message is not OK";
+            exit(1);
+          }
+          if (!isset($response["server_time"])) {
+            echo "Server time is not set";
+            exit(1);
+          }
+          echo "All checks passed!";
+          '
