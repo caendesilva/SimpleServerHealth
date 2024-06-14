@@ -7,6 +7,13 @@
  */
 class Config
 {
+    // Set the application authentication token here
+    // This value should be the hashed token using the `sha256` algorithm.
+    // You can also set this as an environment variable of the same name.
+    // If both are set, the environment variable will take precedence.
+    // If both are null, authentication will be disabled.
+    public const APP_AUTH_TOKEN = null;
+
     public static function features(): array
     {
         // Comment out the features you don't want to use here.
@@ -175,6 +182,10 @@ class Main extends App
 
     public function handle(): Response
     {
+        if ($this->requiresAuthentication() && ! $this->isAuthenticated()) {
+            return new Response(401, 'Unauthorized', ['error' => 'Unauthorized access']);
+        }
+
         return new Response(200, 'OK', $this->getResponseData());
     }
 
@@ -207,6 +218,41 @@ class Main extends App
         }
 
         return $filteredData;
+    }
+
+    protected function requiresAuthentication(): bool
+    {
+        return $this->getSecretToken() !== null;
+    }
+
+    protected function isAuthenticated(): bool
+    {
+        $secretToken = $this->getSecretToken();
+        $userToken = $this->getUserToken();
+
+        if (! $secretToken || ! $userToken) {
+            return false;
+        }
+
+        // Timing attack safe comparison
+        return hash_equals($secretToken, hash('sha256', $userToken));
+    }
+
+    protected function getSecretToken(): ?string
+    {
+        return getenv('APP_AUTH_TOKEN') ?: Config::APP_AUTH_TOKEN;
+    }
+
+    private function getUserToken(): ?string
+    {
+        $authHeader = $_SERVER['HTTP_AUTHORIZATION'] ?? '';
+        if (strpos($authHeader, 'Bearer ') === 0) {
+            return substr($authHeader, 7);
+        }
+
+        $token = $_GET['token'] ?? '';
+
+        return $token ?: null;
     }
 }
 
