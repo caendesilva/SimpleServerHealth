@@ -50,9 +50,13 @@ jobs:
         with:
           php-version: ${{ matrix.php-version }}
 
-      - name: Run Curl to test endpoint
+      - name: Start PHP Server
         run: |
           php -S localhost:8000 -t . &
+
+      - name: Run Curl to test endpoint
+        run: |
+          curl localhost:8000
           curl -sS http://localhost:8000/index.php | tee result.json
           cat result.json
 
