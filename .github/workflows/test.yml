@@ -42,13 +42,25 @@ jobs:
       - name: Run Curl to test endpoint
         run: |
           curl -sS http://localhost:8000/index.php | tee unauth-result.json
+          curl -sS -H "Authorization: Bearer wrong" http://localhost:8000/index.php | tee wrong-bearer-result.json
           curl -sS -H "Authorization: Bearer test" http://localhost:8000/index.php | tee bearer-result.json
+          curl -sS http://localhost:8000/index.php?token=wrong | tee wrong-token-result.json
           curl -sS http://localhost:8000/index.php?token=test | tee token-result.json
 
       - name: Validate responses
         run: |
           if ! grep -q "Unauthorized access" unauth-result.json; then
               echo "Unauthorized access test failed"
+              exit 1
+          fi
+        
+          if ! grep -q "Unauthorized access" wrong-bearer-result.json; then
+              echo "Wrong Bearer token test failed"
+              exit 1
+          fi
+        
+          if ! grep -q "Unauthorized access" wrong-token-result.json; then
+              echo "Wrong Token test failed"
               exit 1
           fi
         
