@@ -303,7 +303,7 @@ try {
     Piko::boot(new Main());
 } catch (Throwable $exception) {
     // If the `APP_DEBUG` environment variable is set, show the error message.
-    if (!getenv('APP_DEBUG')) {
+    if (getenv('APP_DEBUG') === 'true') {
         // If client is requesting JSON, return the error message.
         if (isset($_SERVER['HTTP_ACCEPT']) && strpos($_SERVER['HTTP_ACCEPT'], 'application/json') !== false) {
             return new Response(500, 'Internal Server Error', [
